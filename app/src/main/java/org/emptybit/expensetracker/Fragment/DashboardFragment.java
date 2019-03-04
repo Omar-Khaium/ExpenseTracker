@@ -1,9 +1,6 @@
 package org.emptybit.expensetracker.Fragment;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,19 +10,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import org.emptybit.expensetracker.Database.DatabaseHelper;
 import org.emptybit.expensetracker.Model.UserModel;
 import org.emptybit.expensetracker.R;
 
-import java.io.File;
-
 import static org.emptybit.expensetracker.Activity.LoginActivity.USER_ID;
-import static org.emptybit.expensetracker.Database.DatabaseQuery.TABLE_USERS;
 import static org.emptybit.expensetracker.Database.DatabaseQuery.getSingleUserData;
 import static org.emptybit.expensetracker.Database.DatabaseQuery.getSingleUserQuery;
-import static org.emptybit.expensetracker.Database.DatabaseQuery.getUserList;
+import static org.emptybit.expensetracker.Database.DatabaseQuery.getTotalDepositOfThisMonth;
+import static org.emptybit.expensetracker.Database.DatabaseQuery.getTotalDepositOfThisMonthQuery;
+import static org.emptybit.expensetracker.Database.DatabaseQuery.getTotalWithdrawnOfThisMonth;
+import static org.emptybit.expensetracker.Database.DatabaseQuery.getTotalWithdrawnOfThisMonthOfQuery;
 
 public class DashboardFragment extends Fragment {
 
@@ -47,8 +42,14 @@ public class DashboardFragment extends Fragment {
         databaseHelper = new DatabaseHelper(getContext());
 
         UserModel userModel = getSingleUserData(databaseHelper.getData(getSingleUserQuery(USER_ID)));
-
         mProfileName.setText(userModel.getName());
+
+        int totalDepositOfThisMonth = getTotalDepositOfThisMonth(databaseHelper.getData(getTotalDepositOfThisMonthQuery()));
+        mProfileCurrentMonthTotalDeposit.setText(String.valueOf(totalDepositOfThisMonth) + " BDT");
+
+        int totalWithdrawnOfThisMonth = getTotalWithdrawnOfThisMonth(databaseHelper.getData(getTotalWithdrawnOfThisMonthOfQuery()));
+        mProfileCurrentMonthTotalWithdrawn.setText(String.valueOf(totalWithdrawnOfThisMonth) + " BDT");
+
         return view;
     }
 

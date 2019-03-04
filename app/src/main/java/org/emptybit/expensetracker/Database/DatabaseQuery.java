@@ -3,14 +3,20 @@ package org.emptybit.expensetracker.Database;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import org.emptybit.expensetracker.Model.AccountModel;
 import org.emptybit.expensetracker.Model.DeleteModel;
 import org.emptybit.expensetracker.Model.InsertModel;
 import org.emptybit.expensetracker.Model.LoginModel;
+import org.emptybit.expensetracker.Model.SubCategoryModel;
 import org.emptybit.expensetracker.Model.UpdateModel;
 import org.emptybit.expensetracker.Model.UserModel;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import static org.emptybit.expensetracker.Activity.LoginActivity.USER_ID;
+import static org.emptybit.expensetracker.Enum.DEPOSIT;
+import static org.emptybit.expensetracker.Enum.WITHDRAW;
 
 public class DatabaseQuery {
     /*Database name*/
@@ -173,6 +179,44 @@ public class DatabaseQuery {
             model = new UserModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getInt(4), cursor.getString(5));
         }
         return model;
+    }
+
+    public static int getTotalDepositOfThisMonth(Cursor cursor) {
+        ArrayList<AccountModel> arrayList = new ArrayList<>();
+        if (cursor.getCount() == 0) {
+            return 0;
+        }
+        while (cursor.moveToNext()) {
+            arrayList.add(new AccountModel(cursor.getInt(0), new UserModel(), new SubCategoryModel(),cursor.getInt(3),cursor.getInt(4),cursor.getString(5)));
+        }
+        int amount = 0;
+        for (AccountModel accountModel : arrayList) {
+            amount += accountModel.getPrice();
+        }
+        return cursor.getInt(0);
+    }
+
+    public static String getTotalDepositOfThisMonthQuery() {
+        return "Select * from  " + TABLE_ACCOUNTS + " where \"" + COLUMN_ACCOUNT_USER_ID + "\"=\"" + USER_ID + "\" AND \"" + COLUMN_ACCOUNT_TRANSACTION_TYPE + "\"=\"" + DEPOSIT + "\";";
+    }
+
+    public static int getTotalWithdrawnOfThisMonth(Cursor cursor) {
+        ArrayList<AccountModel> arrayList = new ArrayList<>();
+        if (cursor.getCount() == 0) {
+            return 0;
+        }
+        while (cursor.moveToNext()) {
+            arrayList.add(new AccountModel(cursor.getInt(0), new UserModel(), new SubCategoryModel(),cursor.getInt(3),cursor.getInt(4),cursor.getString(5)));
+        }
+        int amount = 0;
+        for (AccountModel accountModel : arrayList) {
+            amount += accountModel.getPrice();
+        }
+        return cursor.getInt(0);
+    }
+
+    public static String getTotalWithdrawnOfThisMonthOfQuery() {
+        return "Select * from  " + TABLE_ACCOUNTS + " where \"" + COLUMN_ACCOUNT_USER_ID + "\"=\"" + USER_ID + "\" AND \"" + COLUMN_ACCOUNT_TRANSACTION_TYPE + "\"=\"" + WITHDRAW + "\";";
     }
 
     public static String loginQueryBuilder(String username, String password) {
