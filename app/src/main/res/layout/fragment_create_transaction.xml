@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <android.support.design.card.MaterialCardView
+        android:id="@+id/create_transaction_in_category"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardBackgroundColor="@android:color/holo_blue_light"
+        app:cardCornerRadius="5dp"
+        app:cardUseCompatPadding="true"
+        android:focusable="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp">
+
+            <ImageView
+                android:id="@+id/category_icon"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:alpha=".25"
+                android:rotation="330"
+                android:tint="@android:color/white"
+                android:src="@drawable/ic_category" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@+id/category_icon"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center"
+                    android:text="Category"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_jumbo" />
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.design.card.MaterialCardView>
+
+    <android.support.design.card.MaterialCardView
+        android:id="@+id/create_transaction_in_deposit"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardBackgroundColor="@android:color/holo_green_light"
+        app:cardCornerRadius="5dp"
+        app:cardUseCompatPadding="true"
+        android:focusable="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp">
+
+            <ImageView
+                android:id="@+id/deposit_icon"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:alpha=".25"
+                android:rotation="330"
+                android:tint="@android:color/white"
+                android:src="@drawable/ic_deposit" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@+id/deposit_icon"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center"
+                    android:text="Deposit"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_jumbo" />
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.design.card.MaterialCardView>
+
+    <android.support.design.card.MaterialCardView
+        android:id="@+id/create_transaction_in_expense"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardBackgroundColor="@android:color/holo_orange_light"
+        app:cardCornerRadius="5dp"
+        app:cardUseCompatPadding="true"
+        android:focusable="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp">
+
+            <ImageView
+                android:id="@+id/expense_icon"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:alpha=".25"
+                android:rotation="330"
+                android:tint="@android:color/white"
+                android:src="@drawable/ic_expense" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@+id/expense_icon"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center"
+                    android:text="Expense"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_jumbo" />
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.design.card.MaterialCardView>
+</LinearLayout>

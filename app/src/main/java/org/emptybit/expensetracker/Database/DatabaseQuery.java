@@ -137,6 +137,14 @@ public class DatabaseQuery {
         contentValues.put(COLUMN_USER_START_DATE, String.valueOf(new Date()));
         return new InsertModel(TABLE_USERS, contentValues);
     }
+    public static InsertModel insertSubCategory(SubCategoryModel subCategoryModel) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_SUB_CATEGORY_NAME, subCategoryModel.getName());
+        contentValues.put(COLUMN_SUB_CATEGORY_CATEGORY_ID, subCategoryModel.getCategory().getId());
+        contentValues.put(COLUMN_SUB_CATEGORY_IS_ACTIVE, subCategoryModel.getIsActive());
+        contentValues.put(COLUMN_SUB_CATEGORY_CREATION_DATE, subCategoryModel.getCreation_date());
+        return new InsertModel(TABLE_SUB_CATEGORIES, contentValues);
+    }
 
     public static InsertModel insertLoginCredential(LoginModel loginModel) {
         ContentValues contentValues = new ContentValues();

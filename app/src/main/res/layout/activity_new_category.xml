@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="15dp">
+
+    <EditText
+        android:id="@+id/new_category_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Sub-category Name*" />
+
+    <Spinner
+        android:id="@+id/new_category_actual_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/category_array"
+        android:padding="10dp" />
+
+    <EditText
+        android:id="@+id/new_category_remarks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Remarks" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/new_category_remark_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/new_category_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:text="Save"
+        android:textColor="@color/colorAccent" />
+
+</LinearLayout>

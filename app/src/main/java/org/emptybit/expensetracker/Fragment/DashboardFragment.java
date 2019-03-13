@@ -36,7 +36,7 @@ public class DashboardFragment extends Fragment {
         mProfileImage = view.findViewById(R.id.fragment_dashboard_profile_picture);
         mProfileName = view.findViewById(R.id.fragment_dashboard_profile_name);
         mProfileCurrentMonthTotalDeposit = view.findViewById(R.id.fragment_dashboard_profile_monthly_total_deposit);
-        mProfileCurrentMonthTotalWithdrawn = view.findViewById(R.id.fragment_dashboard_profile_monthly_total_withdrawn);
+        mProfileCurrentMonthTotalWithdrawn = view.findViewById(R.id.fragment_dashboard_profile_monthly_total_expensen);
         mProfileCurrentMonthDailyBudgetLeft = view.findViewById(R.id.fragment_dashboard_profile_daily_budget_left);
 
         databaseHelper = new DatabaseHelper(getContext());

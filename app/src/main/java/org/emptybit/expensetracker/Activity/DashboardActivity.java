@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import org.emptybit.expensetracker.Fragment.CreateTransactionFragment;
 import org.emptybit.expensetracker.Fragment.DashboardFragment;
 import org.emptybit.expensetracker.R;
 
@@ -34,9 +35,9 @@ public class DashboardActivity extends AppCompatActivity {
 //                    case R.id.building_menu_information:
 //                        selectedFragment = new BuildingInformationFragment();
 //                        break;
-//                    case R.id.building_menu_protocol:
-//                        selectedFragment = new BuildingProtocolFragment();
-//                        break;
+                    case R.id.nav_dashboard_new_transaction:
+                    selectedFragment = new CreateTransactionFragment();
+                        break;
 //                    case R.id.building_menu_occupant:
 //                        selectedFragment = new BuildingOccupantFragment();
 //                        break;

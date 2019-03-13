@@ -19,4 +19,13 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
+
+    <string-array name="category_array">
+        <item>Please select one*</item>
+        <item>Transportation</item>
+        <item>Food</item>
+        <item>Shopping</item>
+        <item>Travel</item>
+        <item>Miscellaneous</item>
+    </string-array>
 </resources>
