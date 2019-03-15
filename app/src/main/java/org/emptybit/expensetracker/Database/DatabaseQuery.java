@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import org.emptybit.expensetracker.Model.AccountModel;
+import org.emptybit.expensetracker.Model.CategoryModel;
 import org.emptybit.expensetracker.Model.DeleteModel;
 import org.emptybit.expensetracker.Model.InsertModel;
 import org.emptybit.expensetracker.Model.LoginModel;
@@ -137,6 +138,17 @@ public class DatabaseQuery {
         contentValues.put(COLUMN_USER_START_DATE, String.valueOf(new Date()));
         return new InsertModel(TABLE_USERS, contentValues);
     }
+
+    public static InsertModel insertTransaction(AccountModel accountModel) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_ACCOUNT_USER_ID, accountModel.getUser().getId());
+        contentValues.put(COLUMN_ACCOUNT_SUB_CATEGORY_ID, accountModel.getSubCategory().getId());
+        contentValues.put(COLUMN_ACCOUNT_TRANSACTION_TYPE, accountModel.getType());
+        contentValues.put(COLUMN_ACCOUNT_PRICE, accountModel.getPrice());
+        contentValues.put(COLUMN_ACCOUNT_DATE, accountModel.getDate());
+        return new InsertModel(TABLE_ACCOUNTS, contentValues);
+    }
+
     public static InsertModel insertSubCategory(SubCategoryModel subCategoryModel) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_SUB_CATEGORY_NAME, subCategoryModel.getName());
@@ -178,6 +190,18 @@ public class DatabaseQuery {
         return arrayList;
     }
 
+    public static ArrayList<SubCategoryModel> getSubCategoryList(Cursor cursor) {
+        ArrayList<SubCategoryModel> arrayList = new ArrayList<>();
+        if (cursor.getCount() == 0) {
+            return arrayList;
+        }
+        while (cursor.moveToNext()) {
+            SubCategoryModel model = new SubCategoryModel(cursor.getInt(0), cursor.getString(1),new CategoryModel(),0,"");
+            arrayList.add(model);
+        }
+        return arrayList;
+    }
+
     public static UserModel getSingleUserData(Cursor cursor) {
         UserModel model = new UserModel();
         if (cursor.getCount() == 0) {
@@ -195,7 +219,7 @@ public class DatabaseQuery {
             return 0;
         }
         while (cursor.moveToNext()) {
-            arrayList.add(new AccountModel(cursor.getInt(0), new UserModel(), new SubCategoryModel(),cursor.getInt(3),cursor.getInt(4),cursor.getString(5)));
+            arrayList.add(new AccountModel(cursor.getInt(0), new UserModel(), new SubCategoryModel(), cursor.getInt(3), cursor.getInt(4), cursor.getString(5)));
         }
         int amount = 0;
         for (AccountModel accountModel : arrayList) {
@@ -214,7 +238,7 @@ public class DatabaseQuery {
             return 0;
         }
         while (cursor.moveToNext()) {
-            arrayList.add(new AccountModel(cursor.getInt(0), new UserModel(), new SubCategoryModel(),cursor.getInt(3),cursor.getInt(4),cursor.getString(5)));
+            arrayList.add(new AccountModel(cursor.getInt(0), new UserModel(), new SubCategoryModel(), cursor.getInt(3), cursor.getInt(4), cursor.getString(5)));
         }
         int amount = 0;
         for (AccountModel accountModel : arrayList) {
@@ -233,6 +257,10 @@ public class DatabaseQuery {
 
     public static String getSingleUserQuery(int id) {
         return "Select * from  " + TABLE_USERS + " where \"" + COLUMN_USER_ID + "\"=\"" + id + "\";";
+    }
+
+    public static String getSubCategories(int id) {
+        return "Select "+COLUMN_SUB_CATEGORY_ID+", "+COLUMN_SUB_CATEGORY_NAME+" from  " + TABLE_SUB_CATEGORIES + " where \"" + COLUMN_SUB_CATEGORY_CATEGORY_ID + "\"=\"" + id + "\";";
     }
 
     public static int getLoginUserCredential(Cursor cursor) {

@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.emptybit.expensetracker.Activity.DepositActivity;
+import org.emptybit.expensetracker.Activity.ExpenseActivity;
 import org.emptybit.expensetracker.Activity.NewCategoryActivity;
 import org.emptybit.expensetracker.R;
 
@@ -29,6 +31,20 @@ public class CreateTransactionFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), NewCategoryActivity.class));
+            }
+        });
+
+        xDeposit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), DepositActivity.class));
+            }
+        });
+
+        xExpense.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), ExpenseActivity.class));
             }
         });
 

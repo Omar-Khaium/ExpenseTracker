@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.ExpenseActivity"
+    android:background="@android:color/holo_orange_dark">
+
+    <Spinner
+        android:id="@+id/expense_category_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/category_array"
+        android:layout_marginTop="10dp"/>
+
+    <Spinner
+        android:id="@+id/expense_sub_category_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/expense_category_list"/>
+
+    <EditText
+        android:id="@+id/expense_remarks"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/expense_sub_category_list" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/expense_remark_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/expense_remarks"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/expense_remark_list"
+        android:layout_marginTop="10dp"
+        android:layout_centerInParent="true">
+
+
+        <EditText
+            android:id="@+id/expense_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@android:color/transparent"
+            android:textSize="50dp"
+            android:hint="Amount*"
+            android:textColor="@android:color/holo_orange_light"
+            android:textColorHint="@android:color/holo_orange_light"
+            android:inputType="number"/>
+
+        <ImageView
+            android:id="@+id/expense_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/expense_amount"
+            android:src="@drawable/ic_forward"
+            android:background="@drawable/icon_background"
+            android:tint="@android:color/white"
+            android:padding="6dp"
+            android:layout_marginLeft="15dp"
+            android:alpha=".75"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+</RelativeLayout>

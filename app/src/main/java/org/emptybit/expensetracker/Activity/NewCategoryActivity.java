@@ -98,7 +98,7 @@ public class NewCategoryActivity extends AppCompatActivity {
                 } else {
                     SubCategoryModel model = new SubCategoryModel(0,mName.getText().toString(),new CategoryModel(mCategory.getSelectedItemPosition(), String.valueOf(mCategory.getSelectedItem().toString()), ACTIVE, String.valueOf(new Date())), ACTIVE, String.valueOf(new Date()));
                     if (databaseHelper.insert(insertSubCategory(model))) {
-                        Toast.makeText(NewCategoryActivity.this, "Sub category creeated", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NewCategoryActivity.this, "Sub category created", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

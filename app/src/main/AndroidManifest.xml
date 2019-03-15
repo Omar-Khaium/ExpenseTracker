@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.NewCategoryActivity"></activity>
+        <activity android:name=".Activity.ExpenseActivity"></activity>
+        <activity android:name=".Activity.DepositActivity" />
+        <activity android:name=".Activity.NewCategoryActivity" />
         <activity android:name=".Activity.SignUpActivity" />
         <activity android:name=".Activity.DashboardActivity" />
         <activity android:name=".Activity.LoginActivity" />
