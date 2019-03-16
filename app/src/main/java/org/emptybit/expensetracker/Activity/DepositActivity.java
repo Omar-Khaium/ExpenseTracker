@@ -13,6 +13,8 @@ import org.emptybit.expensetracker.Model.SubCategoryModel;
 import org.emptybit.expensetracker.Model.UserModel;
 import org.emptybit.expensetracker.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.emptybit.expensetracker.Activity.LoginActivity.USER_ID;
@@ -39,7 +41,14 @@ public class DepositActivity extends AppCompatActivity {
                 if (mAmount.getText().toString().isEmpty()) {
                     mAmount.setError("Amount is required");
                 } else {
-                    AccountModel model = new AccountModel(0, new UserModel(USER_ID, "", "", "", 0, ""), new SubCategoryModel(), Integer.parseInt(mAmount.getText().toString()), DEPOSIT, String.valueOf(new Date()));
+                    String date = "";
+                    SimpleDateFormat fromUser = new SimpleDateFormat("EEE MMM dd HH:mm:ss ZZZ yyyy");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    try {
+                        date = dateFormat.format(fromUser.parse(String.valueOf(new Date())));
+                    } catch (ParseException e) {
+                    }
+                    AccountModel model = new AccountModel(0, new UserModel(USER_ID, "", "", "", 0, ""), new SubCategoryModel(), Integer.parseInt(mAmount.getText().toString()), DEPOSIT, date);
                     if (helper.insert(insertTransaction(model))) {
                         Toast.makeText(DepositActivity.this, "Deposited successfully", Toast.LENGTH_SHORT).show();
                     }

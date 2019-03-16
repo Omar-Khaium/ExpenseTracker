@@ -24,6 +24,8 @@ import org.emptybit.expensetracker.Model.SubCategoryModel;
 import org.emptybit.expensetracker.Model.UserModel;
 import org.emptybit.expensetracker.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -154,8 +156,15 @@ public class ExpenseActivity extends AppCompatActivity {
                 } else if (mAmount.getText().toString().isEmpty()) {
                     mAmount.setError("Amount is required");
                 } else {
+                    String date = "";
+                    SimpleDateFormat fromUser = new SimpleDateFormat("EEE MMM dd HH:mm:ss ZZZ yyyy");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    try {
+                        date = dateFormat.format(fromUser.parse(String.valueOf(new Date())));
+                    } catch (ParseException e) {
+                    }
                     SubCategoryModel subCategoryModel = subCategoryArrayList.get(mSubCategoryList.getSelectedItemPosition());
-                    AccountModel model = new AccountModel(0, new UserModel(USER_ID, "", "", "", 0, ""), subCategoryModel, Integer.parseInt(mAmount.getText().toString()), WITHDRAW, String.valueOf(new Date()));
+                    AccountModel model = new AccountModel(0, new UserModel(USER_ID, "", "", "", 0, ""), subCategoryModel, Integer.parseInt(mAmount.getText().toString()), WITHDRAW, date);
                     if (databaseHelper.insert(insertTransaction(model))) {
                         Toast.makeText(ExpenseActivity.this, "Expended successfully", Toast.LENGTH_SHORT).show();
                     }

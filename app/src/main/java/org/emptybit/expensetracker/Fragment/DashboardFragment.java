@@ -14,9 +14,19 @@ import org.emptybit.expensetracker.Database.DatabaseHelper;
 import org.emptybit.expensetracker.Model.UserModel;
 import org.emptybit.expensetracker.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
+import java.util.Calendar;
+import java.util.Date;
+
 import static org.emptybit.expensetracker.Activity.LoginActivity.USER_ID;
+import static org.emptybit.expensetracker.Database.DatabaseQuery.TotalCostOfTodayQuery;
 import static org.emptybit.expensetracker.Database.DatabaseQuery.getSingleUserData;
 import static org.emptybit.expensetracker.Database.DatabaseQuery.getSingleUserQuery;
+import static org.emptybit.expensetracker.Database.DatabaseQuery.getTotalCostOfToday;
 import static org.emptybit.expensetracker.Database.DatabaseQuery.getTotalDepositOfThisMonth;
 import static org.emptybit.expensetracker.Database.DatabaseQuery.getTotalDepositOfThisMonthQuery;
 import static org.emptybit.expensetracker.Database.DatabaseQuery.getTotalWithdrawnOfThisMonth;
@@ -49,6 +59,18 @@ public class DashboardFragment extends Fragment {
 
         int totalWithdrawnOfThisMonth = getTotalWithdrawnOfThisMonth(databaseHelper.getData(getTotalWithdrawnOfThisMonthOfQuery()));
         mProfileCurrentMonthTotalWithdrawn.setText(String.valueOf(totalWithdrawnOfThisMonth) + " BDT");
+
+        int totalCostOfToday = getTotalCostOfToday(databaseHelper.getData(TotalCostOfTodayQuery()));
+
+        double dailyBudgetLeft;
+        if (totalWithdrawnOfThisMonth > totalDepositOfThisMonth) {
+            dailyBudgetLeft = totalDepositOfThisMonth - totalWithdrawnOfThisMonth - totalCostOfToday;
+        } else {
+            Calendar cal = Calendar.getInstance();
+            int res = cal.getActualMaximum(Calendar.DATE);
+            dailyBudgetLeft = ((double) totalDepositOfThisMonth / res) - totalCostOfToday;
+        }
+        mProfileCurrentMonthDailyBudgetLeft.setText(String.valueOf(dailyBudgetLeft) + " BDT");
 
         return view;
     }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true">
+
+    <TextView
+        android:id="@+id/deposit_row_layout_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_currency"
+        android:paddingLeft="10dp"
+        android:drawablePadding="5dp"
+        android:hint="Amount"
+        android:gravity="center_vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_size_jumbo"
+        android:layout_alignParentStart="true"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_centerVertical="true"
+        android:background="@android:color/darker_gray"
+        android:layout_toEndOf="@+id/deposit_row_layout_amount"
+        android:layout_toStartOf="@+id/deposit_row_layout_date"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+
+    <TextView
+        android:id="@+id/deposit_row_layout_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:hint="dd MMM yyyy"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/darker_gray"
+        android:textStyle="bold"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp"
+        android:textSize="@dimen/text_size_large" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/darker_gray"
+        android:layout_marginBottom="5dp"/>
+</RelativeLayout>

@@ -12,10 +12,13 @@ import org.emptybit.expensetracker.Model.SubCategoryModel;
 import org.emptybit.expensetracker.Model.UpdateModel;
 import org.emptybit.expensetracker.Model.UserModel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import static org.emptybit.expensetracker.Activity.LoginActivity.USER_ID;
+import static org.emptybit.expensetracker.Enum.ACTIVE;
 import static org.emptybit.expensetracker.Enum.DEPOSIT;
 import static org.emptybit.expensetracker.Enum.WITHDRAW;
 
@@ -196,7 +199,33 @@ public class DatabaseQuery {
             return arrayList;
         }
         while (cursor.moveToNext()) {
-            SubCategoryModel model = new SubCategoryModel(cursor.getInt(0), cursor.getString(1),new CategoryModel(),0,"");
+            SubCategoryModel model = new SubCategoryModel(cursor.getInt(0), cursor.getString(1), new CategoryModel(), 0, "");
+            arrayList.add(model);
+        }
+        return arrayList;
+    }
+
+    public static ArrayList<AccountModel> getDepositList(Cursor cursor) {
+        ArrayList<AccountModel> arrayList = new ArrayList<>();
+        if (cursor.getCount() == 0) {
+            return arrayList;
+        }
+        while (cursor.moveToNext()) {
+            AccountModel model = new AccountModel(cursor.getInt(0), new UserModel(), new SubCategoryModel(), cursor.getInt(1), DEPOSIT, cursor.getString(2));
+            arrayList.add(model);
+        }
+        return arrayList;
+    }
+
+    public static ArrayList<AccountModel> getExpenseList(Cursor cursor) {
+        ArrayList<AccountModel> arrayList = new ArrayList<>();
+        if (cursor.getCount() == 0) {
+            return arrayList;
+        }
+        while (cursor.moveToNext()) {
+            AccountModel model = new AccountModel(cursor.getInt(0), new UserModel(),
+                    new SubCategoryModel(cursor.getInt(2), cursor.getString(3), new CategoryModel(), ACTIVE, ""),
+                    cursor.getInt(1), DEPOSIT, cursor.getString(4));
             arrayList.add(model);
         }
         return arrayList;
@@ -213,23 +242,39 @@ public class DatabaseQuery {
         return model;
     }
 
+    public static SubCategoryModel getSingleSubCategoryData(Cursor cursor) {
+        SubCategoryModel model = new SubCategoryModel();
+        if (cursor.getCount() == 0) {
+            return model;
+        }
+        while (cursor.moveToNext()) {
+            model = new SubCategoryModel(cursor.getInt(0), cursor.getString(1), new CategoryModel(cursor.getInt(2), "", ACTIVE, ""), ACTIVE, "");
+        }
+        return model;
+    }
+
+    public static int getTotalCostOfToday(Cursor cursor) {
+        ArrayList<AccountModel> arrayList = new ArrayList<>();
+        if (cursor.getCount() == 0) {
+            return 0;
+        }
+        int amount = 0;
+        while (cursor.moveToNext()) {
+            amount += cursor.getInt(0);
+        }
+        return amount;
+    }
+
     public static int getTotalDepositOfThisMonth(Cursor cursor) {
         ArrayList<AccountModel> arrayList = new ArrayList<>();
         if (cursor.getCount() == 0) {
             return 0;
         }
-        while (cursor.moveToNext()) {
-            arrayList.add(new AccountModel(cursor.getInt(0), new UserModel(), new SubCategoryModel(), cursor.getInt(3), cursor.getInt(4), cursor.getString(5)));
-        }
         int amount = 0;
-        for (AccountModel accountModel : arrayList) {
-            amount += accountModel.getPrice();
+        while (cursor.moveToNext()) {
+            amount += cursor.getInt(0);
         }
-        return cursor.getInt(0);
-    }
-
-    public static String getTotalDepositOfThisMonthQuery() {
-        return "Select * from  " + TABLE_ACCOUNTS + " where \"" + COLUMN_ACCOUNT_USER_ID + "\"=\"" + USER_ID + "\" AND \"" + COLUMN_ACCOUNT_TRANSACTION_TYPE + "\"=\"" + DEPOSIT + "\";";
+        return amount;
     }
 
     public static int getTotalWithdrawnOfThisMonth(Cursor cursor) {
@@ -237,18 +282,30 @@ public class DatabaseQuery {
         if (cursor.getCount() == 0) {
             return 0;
         }
-        while (cursor.moveToNext()) {
-            arrayList.add(new AccountModel(cursor.getInt(0), new UserModel(), new SubCategoryModel(), cursor.getInt(3), cursor.getInt(4), cursor.getString(5)));
-        }
         int amount = 0;
-        for (AccountModel accountModel : arrayList) {
-            amount += accountModel.getPrice();
+        while (cursor.moveToNext()) {
+            amount += cursor.getInt(0);
         }
-        return cursor.getInt(0);
+        return amount;
+    }
+
+    public static String TotalCostOfTodayQuery() {
+        String date = "";
+        SimpleDateFormat fromUser = new SimpleDateFormat("EEE MMM dd HH:mm:ss ZZZ yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            date = dateFormat.format(fromUser.parse(String.valueOf(new Date())));
+        } catch (ParseException e) {
+        }
+        return "Select " + COLUMN_ACCOUNT_PRICE + " from  " + TABLE_ACCOUNTS + " where " + COLUMN_ACCOUNT_USER_ID + "=" + USER_ID + " AND " + COLUMN_ACCOUNT_TRANSACTION_TYPE + "=" + WITHDRAW + " AND " + COLUMN_ACCOUNT_DATE + "=date('now');";
+    }
+
+    public static String getTotalDepositOfThisMonthQuery() {
+        return "Select " + COLUMN_ACCOUNT_PRICE + " from  " + TABLE_ACCOUNTS + " where " + COLUMN_ACCOUNT_USER_ID + "=" + USER_ID + " AND " + COLUMN_ACCOUNT_TRANSACTION_TYPE + "=" + DEPOSIT + " AND " + COLUMN_ACCOUNT_DATE + " BETWEEN date('now','start of month','+0 month','-0 day') AND date('now','start of month','+1 month','-1 day');";
     }
 
     public static String getTotalWithdrawnOfThisMonthOfQuery() {
-        return "Select * from  " + TABLE_ACCOUNTS + " where \"" + COLUMN_ACCOUNT_USER_ID + "\"=\"" + USER_ID + "\" AND \"" + COLUMN_ACCOUNT_TRANSACTION_TYPE + "\"=\"" + WITHDRAW + "\";";
+        return "Select " + COLUMN_ACCOUNT_PRICE + " from  " + TABLE_ACCOUNTS + " where " + COLUMN_ACCOUNT_USER_ID + "=" + USER_ID + " AND " + COLUMN_ACCOUNT_TRANSACTION_TYPE + "=" + WITHDRAW + " AND " + COLUMN_ACCOUNT_DATE + " BETWEEN date('now','start of month','+0 month','-0 day') AND date('now','start of month','+1 month','-1 day');";
     }
 
     public static String loginQueryBuilder(String username, String password) {
@@ -259,8 +316,28 @@ public class DatabaseQuery {
         return "Select * from  " + TABLE_USERS + " where \"" + COLUMN_USER_ID + "\"=\"" + id + "\";";
     }
 
+    public static String getSingleSubCategoryQuery(int id) {
+        return "Select * from  " + TABLE_SUB_CATEGORIES + " where \"" + COLUMN_SUB_CATEGORY_ID + "\"=\"" + id + "\";";
+    }
+
     public static String getSubCategories(int id) {
-        return "Select "+COLUMN_SUB_CATEGORY_ID+", "+COLUMN_SUB_CATEGORY_NAME+" from  " + TABLE_SUB_CATEGORIES + " where \"" + COLUMN_SUB_CATEGORY_CATEGORY_ID + "\"=\"" + id + "\";";
+        return "Select " + COLUMN_SUB_CATEGORY_ID + ", " + COLUMN_SUB_CATEGORY_NAME + " from  " + TABLE_SUB_CATEGORIES + " where \"" + COLUMN_SUB_CATEGORY_CATEGORY_ID + "\"=\"" + id + "\";";
+    }
+
+    public static String getAllDepositQuery() {
+        return "Select " + COLUMN_ACCOUNT_ID + ", " + COLUMN_ACCOUNT_PRICE + ", " + COLUMN_ACCOUNT_DATE + " from  " + TABLE_ACCOUNTS + " where \"" + COLUMN_ACCOUNT_TRANSACTION_TYPE + "\"=\"" + DEPOSIT + "\" AND \"" + COLUMN_ACCOUNT_USER_ID + "\"=\"" + USER_ID + "\" ;";
+    }
+
+    public static String getAllExpenseQuery() {
+        return "Select " +
+                TABLE_ACCOUNTS + "." + COLUMN_ACCOUNT_ID + ", " +
+                TABLE_ACCOUNTS + "." + COLUMN_ACCOUNT_PRICE + ", " +
+                TABLE_SUB_CATEGORIES + "." + COLUMN_SUB_CATEGORY_ID + ", " +
+                TABLE_SUB_CATEGORIES + "." + COLUMN_SUB_CATEGORY_NAME + ", " +
+                TABLE_ACCOUNTS + "." + COLUMN_ACCOUNT_DATE +
+                " from  " + TABLE_ACCOUNTS +
+                " LEFT JOIN " + TABLE_SUB_CATEGORIES + " ON " + TABLE_SUB_CATEGORIES + "." + COLUMN_SUB_CATEGORY_ID + "=" + TABLE_ACCOUNTS + "." + COLUMN_ACCOUNT_SUB_CATEGORY_ID +
+                " where " + TABLE_ACCOUNTS + "." + COLUMN_ACCOUNT_TRANSACTION_TYPE + "=" + WITHDRAW + " AND " + TABLE_ACCOUNTS + "." + COLUMN_ACCOUNT_USER_ID + "=" + USER_ID + ";";
     }
 
     public static int getLoginUserCredential(Cursor cursor) {
